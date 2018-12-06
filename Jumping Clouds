@@ -1,0 +1,75 @@
+using System.CodeDom.Compiler;
+using System.Collections.Generic;
+using System.Collections;
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.Serialization;
+using System.Text.RegularExpressions;
+using System.Text;
+using System;
+
+class Solution
+{
+
+    // Complete the jumpingOnClouds function below.
+    static int jumpingOnClouds(int[] c)
+    {
+        //counting of jumps
+        int numberJumps = 0;
+
+        //position of the player
+        int i = 0;
+
+        int oneJump = 0;
+        int twoJumps = 0;
+        //loop to count the jumps
+        while (i < c.Length-1)
+        {   
+            //get the cloud value with one jump
+            oneJump = c[i + 1];
+            //get the cloud value with two jumps
+            if ((i + 2) <= c.Length-1)
+            {
+                twoJumps = c[i + 2];
+            }
+
+            //if with two jumps, cloud is not a thunderhead
+            if (twoJumps == 0)
+            {
+                numberJumps++;
+                i = i + 2;
+            }
+            else
+            {
+                numberJumps++;
+                i++;
+            }
+            
+        }
+        return numberJumps;
+    }
+
+    static void Main(string[] args)
+    {
+        TextWriter textWriter = new StreamWriter(@System.Environment.GetEnvironmentVariable("OUTPUT_PATH"), true);
+
+        //number of clouds
+        int n = Convert.ToInt32(Console.ReadLine());
+
+        //Clouds to jump and avoid
+        int[] c = Array.ConvertAll(Console.ReadLine().Split(' '), cTemp => Convert.ToInt32(cTemp));
+        int result = jumpingOnClouds(c);
+
+        //Console.WriteLine(result);
+        //Console.ReadLine();
+
+        textWriter.WriteLine(result);
+
+        textWriter.Flush();
+        textWriter.Close();
+    }
+}
